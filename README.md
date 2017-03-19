@@ -5,7 +5,7 @@ Wikipedia -> Philosophy finder
   
   As it traverses Wikipedia, wordpairs of `{page} {first valid link}` are stored in a cache to reduce the requests made.
 
-## Checking a single page
+## Checking a single article
   Run `philosophy.py`. Add an optional argument for the page of your choice, or `random` for a random article.
   
   **Sample output:**
@@ -37,5 +37,5 @@ Wikipedia -> Philosophy finder
     Samuel_Guttenplan -> Philosophy in 11 clicks (6 requests)`
     
     
-##Path length distribution across *n* attempts
-  Run `path_lengths.py`
+## Path length distribution across *n* attempts
+  Run `path_lengths.py` with optional arguments `quiet` (to only output the final result for each article) or `n` (number of articles to check)
