@@ -37,6 +37,7 @@ class PhilosophyFinder:
 
     if search == '' or search == None:
       search = self.get_random_page()
+      self.start = search
 
     if self.start == '':
       self.start = search
