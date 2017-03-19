@@ -3,13 +3,11 @@ import collections
 import time
 import sys
 
-repeat = 20
+repeat = 5
 quiet = False
 
 args = sys.argv[1:]
 path_lengths = []
-errors = []
-log = []
 
 distribution = collections.Counter()
 

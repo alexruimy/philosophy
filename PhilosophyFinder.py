@@ -13,60 +13,71 @@ class PhilosophyFinder:
   request_count = 0
   max_depth = 999
   depth = 1
-  start = None
+  start = ''
 
   quiet = False
   history = []
   complete = False
   cache_file = '.wordpairs'
 
+
   def __init__(self):
     self.wordpairs = self._read_wordpairs()
 
 
+  def get_random_page(self):
+    return self.crawl(self.random_page)
+
+
   def find(self, search=''):
 
-    if search == '' or search == None:
-      search = self.random_page
+    if self.complete:
+      self._log("ERROR: finding link for %s" % search, False)
+      return
 
-    if not self.quiet and search and search != self.random_page:
-      self._log(search)
+    if search == '' or search == None:
+      search = self.get_random_page()
+
+    if self.start == '':
+      self.start = search
+
+    if not self.quiet:
+      self._log(search.title())
 
     if search == self.goal:
       self._save_wordpairs()
-      self._log("%s -> %s in %d clicks (%d requests)" % (self.start, self.goal, self.depth, self.request_count), False)
+      self._log("%s -> %s in %d clicks (%d requests)" % (self.start.title(), self.goal, self.depth, self.request_count), False)
       self.complete = True
       return self.depth
 
-    if search in self.wordpairs.keys():
+    elif search in self.wordpairs.keys():
+      self.depth+= 1
+      return self.find(self.wordpairs[search])
 
-      if search != self.random_page:
-        self.depth+= 1
-        return self.find(self.wordpairs[search])
-
-    if search == self.not_found or search == None:
+    elif search == self.not_found or search == None:
       self.complete = True
-      self._log("ERROR: Article not found (%s)" % search)
+      self._log("ERROR: Article not found (%s)" % search, False)
 
-    if search:
+    elif search and not self.complete:
+
       result = self.crawl(search)
+
       if not result:
-        print('no')
-        return self.find(search)
+        self.complete = True
+        self._log("ERROR: Could not find valid link (%s)" % result, false)
 
       if result in self.history:
         self.complete = True
-        self._log("ERROR: Caught in loop (%s)" % result)
+        self._log("ERROR: Caught in loop (%s)" % result, False)
+        self._log(self.history, False)
 
       if self.depth > self.max_depth:
         self.complete = True
-        self._log("ERROR: Max depth exceeded")
+        self._log("ERROR: Max depth exceeded", False)
 
-      if result and search != self.random_page:
+      if result:
         self.wordpairs[search] = result
         self.request_count+= 1
-
-      if search != self.random_page:
         self.depth+= 1
 
       return self.find(result)
