@@ -159,6 +159,6 @@ class PhilosophyFinder:
 
     pairs = '\n'.join(['%s\t%s' % (a,b) for a,b in self.wordpairs.items()])
 
-    fh = open('.wordpairs', 'w+')
+    fh = open(self.cache_file, 'w+')
     fh.write(pairs)
     fh.close()
