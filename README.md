@@ -3,7 +3,7 @@ Wikipedia -> Philosophy finder
 
   This script will follow the first non italic, non parenthesis link in an arbitrary Wikipedia article until it gets to Philosophy.
   
-  As it traverses Wikipedia, wordpairs of `{page} {first valid link}` are stored in a cache to reduce the requests made.
+  As it traverses Wikipedia, tab-separated wordpairs of `{page} {first valid link}` are stored in a cache to reduce the requests made.
 
 ## Checking a single article
   Run `philosophy.py`. Add an optional argument for the page of your choice, or `random` for a random article.
