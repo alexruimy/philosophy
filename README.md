@@ -10,7 +10,7 @@ Wikipedia -> Philosophy finder
   
   **Sample output:**
   
-  `python philosophy.py random
+  `python philosophy.py random`
   
     -Special:Random
     
