@@ -102,13 +102,13 @@ class PhilosophyFinder:
 
       for link in links:
         if link['title']:
-          if self.balanced_parens(str(link), str(body_text)):
+          if self._balanced_parens(str(link), str(body_text)):
             return link['title']
 
     return False
 
 
-  def balanced_parens(self, link, body_text):
+  def _balanced_parens(self, link, body_text):
 
     text = body_text.split(link)[0]
     opened = text.count('(')
