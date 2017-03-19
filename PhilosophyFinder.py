@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 from sys import argv
+import urllib
 
 class PhilosophyFinder:
 
@@ -28,7 +29,7 @@ class PhilosophyFinder:
     if search == '' or search == None:
       search = self.random_page
 
-    if not self.quiet and search:
+    if not self.quiet and search and search != self.random_page:
       self._log(search)
 
     if search == self.goal:
@@ -53,10 +54,6 @@ class PhilosophyFinder:
         print('no')
         return self.find(search)
 
-      if result and search != self.random_page:
-        self.wordpairs[search] = result
-        self.request_count+= 1
-
       if result in self.history:
         self.complete = True
         self._log("ERROR: Caught in loop (%s)" % result)
@@ -65,7 +62,13 @@ class PhilosophyFinder:
         self.complete = True
         self._log("ERROR: Max depth exceeded")
 
-      self.depth+= 1
+      if result and search != self.random_page:
+        self.wordpairs[search] = result
+        self.request_count+= 1
+
+      if search != self.random_page:
+        self.depth+= 1
+
       return self.find(result)
 
 
@@ -115,12 +118,12 @@ class PhilosophyFinder:
 
   def _log(self, msg, indent=True):
 
-    if indent:
-      m = ''.join(['-' for i in range(self.depth)]) + msg
-    else:
-      m = msg
-
-    print(m)
+    if not msg.startswith('ERROR'):
+      if indent:
+        msg = ''.join(['-' for i in range(self.depth)]) + msg
+      msg = msg.replace('_', ' ')
+      msg = urllib.parse.unquote(msg)
+    print(msg)
 
 
   def _read_wordpairs(self):

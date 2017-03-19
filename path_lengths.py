@@ -1,18 +1,34 @@
 from PhilosophyFinder import PhilosophyFinder
 import collections
 import time
+import sys
 
+repeat = 20
+quiet = False
+
+args = sys.argv[1:]
 path_lengths = []
 errors = []
 log = []
-repeat = 20
+
 distribution = collections.Counter()
+
+if 'quiet' in args:
+  quiet = True
+  args.remove('quiet')
+
+try:
+  repeat = int(args[0])
+except:
+  pass
+
+print('Checking %d articles' % repeat)
 
 while len(path_lengths) < repeat:
 
   try :
     i = PhilosophyFinder()
-    i.quiet = True
+    i.quiet = quiet
     result = i.find()
 
     while not i.complete:

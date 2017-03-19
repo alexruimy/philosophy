@@ -3,11 +3,14 @@ import sys
 
 args = ' '.join(sys.argv[1:])
 
-if args == 'random':
+if args == '':
+  search = input('Enter search term, or leave blank for random\n-->: ')
+
+elif args == 'random':
   search = ''
 
-elif args == '':
-  search = input('Enter search term, or leave blank for random\n-->: ')
+else:
+  search = args
 
 w = PhilosophyFinder()
 w.find(search)
