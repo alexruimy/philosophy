@@ -130,12 +130,17 @@ class PhilosophyFinder:
 
   def _log(self, msg, indent=True):
 
-    if not msg.startswith('ERROR'):
-      if indent:
-        msg = ''.join(['-' for i in range(self.depth)]) + msg
-      msg = msg.replace('_', ' ')
-      msg = urllib.parse.unquote(msg)
-    print(msg)
+    if type(msg) == list:
+      for m in msg:
+        self._log(m, indent)
+
+    else:
+      if not msg.startswith('ERROR'):
+        if indent:
+          msg = ''.join(['-' for i in range(self.depth)]) + msg
+        msg = msg.replace('_', ' ')
+        msg = urllib.parse.unquote(msg)
+      print(msg)
 
 
   def _read_wordpairs(self):
